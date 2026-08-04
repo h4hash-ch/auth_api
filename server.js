@@ -1,10 +1,12 @@
-const supabase = require("./Supabase");
+const authRoutes = require("./authRoutes");
+const supabase = require("./supabase");
 const express = require("express");
 require("dotenv").config();
 
 const app = express();
 
 app.use(express.json());
+app.use("/auth", authRoutes);
 
 app.get("/", (req, res) => {
     res.json({
