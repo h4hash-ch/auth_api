@@ -2,6 +2,12 @@ const express = require("express");
 const router = express.Router();
 
 const supabase = require("./supabase");
+console.log(require.resolve("./authMiddleware"));
+
+const authenticateUser = require("./authMiddleware");
+
+console.log(authenticateUser);
+console.log(typeof authenticateUser);
 
 
 // POST /auth/signup
@@ -72,6 +78,20 @@ router.post("/login", async (req, res) => {
         access_token: data.session.access_token,
         refresh_token: data.session.refresh_token
     });
+
+});
+
+router.post("/logout", authenticateUser, async (req, res) => {
+
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+        return res.status(400).json({
+            error: error.message
+        });
+    }
+
+    res.status(204).send();
 
 });
 
