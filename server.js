@@ -1,12 +1,15 @@
+require("dotenv").config();
+
 const authRoutes = require("./authRoutes");
 const supabase = require("./supabase");
 const express = require("express");
-require("dotenv").config();
+const protectedRoutes = require("./publicprotectedRoutes");
 
 const app = express();
 
 app.use(express.json());
 app.use("/auth", authRoutes);
+app.use("/", protectedRoutes);
 
 app.get("/", (req, res) => {
     res.json({

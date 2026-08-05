@@ -31,7 +31,11 @@ router.post("/signup", async (req, res) => {
 
 
     res.status(201).json({
-        user: data.user
+        user: {
+            id: data.user.id,
+            email: data.user.email,
+            created_at: data.user.created_at
+        }
     });
 
 });
