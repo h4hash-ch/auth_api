@@ -1,0 +1,157 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Auth API",
+    "version": "1.0.0",
+    "description": "Authentication API using Express and Supabase"
+  },
+
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+
+  "paths": {
+
+    "/auth/signup": {
+      "post": {
+        "summary": "Register a new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+
+    "/auth/login": {
+      "post": {
+        "summary": "Login user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Returns JWT"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        }
+      }
+    },
+
+    "/auth/logout": {
+      "post": {
+        "summary": "Logout user",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Logged out"
+          }
+        }
+      }
+    },
+
+    "/protected/profile": {
+      "get": {
+        "summary": "Current user's profile",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User profile"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+
+    "/protected/dashboard": {
+      "get": {
+        "summary": "Protected dashboard",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dashboard"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+
+    "/public/info": {
+      "get": {
+        "summary": "Public information",
+        "responses": {
+          "200": {
+            "description": "Public endpoint"
+          }
+        }
+      }
+    }
+
+  }
+}

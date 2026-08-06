@@ -1,5 +1,6 @@
 require("dotenv").config();
-
+const swaggerUI = require("swagger-ui-express");
+const swaggerDocument = require("./openapi.json");
 const authRoutes = require("./authRoutes");
 const supabase = require("./supabase");
 const express = require("express");
@@ -8,6 +9,7 @@ const protectedRoutes = require("./publicprotectedRoutes");
 const app = express();
 
 app.use(express.json());
+app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 app.use("/auth", authRoutes);
 app.use("/", protectedRoutes);
 
